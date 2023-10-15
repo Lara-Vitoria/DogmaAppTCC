@@ -3,7 +3,7 @@ import Svg, { Path } from "react-native-svg"
 const HomeSvgComponent = () => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="-110 25 500 70"
+    viewBox="-110 18 500 70"
   >
     <Path
       fill="#D7E057"

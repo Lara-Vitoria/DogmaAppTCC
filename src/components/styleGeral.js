@@ -11,8 +11,8 @@ const stylesGeral = StyleSheet.create({
     },
     opcoesGroup: {
         flexDirection: 'row',
-        top: 80,
-        marginLeft: 32
+        top: 48,
+        marginLeft: 16
     },
     opcao: {
         flex: 1,
@@ -62,6 +62,16 @@ const stylesGeral = StyleSheet.create({
         shadowOpacity: .4,
         shadowRadius: 2,
     },
+    textDefault: {
+        top: 240,
+        fontSize: 40,
+        color: '#775B37',
+        fontFamily: 'sans-serif-light',
+        textAlign: 'center'
+    },
+    textDefaultFooter: {
+        color: '#775B37',
+    }
 
 });
 

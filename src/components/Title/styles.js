@@ -8,11 +8,11 @@ const styles = StyleSheet.create({
         color: '#775B37',
         fontSize: 50,
         textAlign: 'center',
-        marginTop: 70,
-        fontFamily: 'sans-serif-light'
+        marginTop: 100,
+        fontWeight: 'bold',
     },
     subtitle: {
-        color: '#CE9B59',
+        color: '#857669',
         fontSize: 20,
         fontFamily: 'sans-serif-light'
     },

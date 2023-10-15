@@ -10,6 +10,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF2E2',
         alignItems: 'center',
     },
+    imgHome: {
+        position: 'absolute',
+        top: vertical * .7,
+    },
     text: {
         color: '#fff',
         fontSize: 25,
@@ -18,8 +22,8 @@ const styles = StyleSheet.create({
     },
     btn: {
         backgroundColor: '#FCBE6B',
-        position: 'absolute', 
-        top: vertical * .7, 
+        position: 'absolute',
+        top: vertical * .7,
         left: horizontal * 0.1,
         width: "80%",
         height: "12%",

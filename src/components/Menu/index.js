@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
     GPSSvgComponent,
     BPMSvgComponent,
     SomSvgComponent,
     AtividadeSvgComponent
 } from "../../../assets/svgImages";
+import { useRoute } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons, Octicons, AntDesign } from '@expo/vector-icons';
 
+import Header from '../Header';
 import Informacao from '../Informacao';
 import Configuracao from '../Configuracao';
 import Cadastro from '../Cadastro';
@@ -16,12 +19,6 @@ import styles from './styles';
 import stylesGeral from "../styleGeral";
 
 const Tab = createBottomTabNavigator();
-
-const BtnCadastro = ({ onPress }) => (
-    <TouchableOpacity onPress={onPress}>
-        <AntDesign style={{ bottom: 32 }} name="pluscircle" size={64} color="#FCBE6B" />
-    </TouchableOpacity>
-);
 
 function NavegacaoTab({ navigation }) {
     return (
@@ -75,14 +72,29 @@ function NavegacaoTab({ navigation }) {
 
 export default function Menu({ navigation }) {
 
+    const [username, setUsername] = useState('');
+
+    useEffect(
+        () => {
+            getNome();
+        }, []
+    );
+
+    async function getNome() {
+        try {
+            let user = await AsyncStorage.getItem("@user");
+            userJson = JSON.parse(user)
+            setUsername(userJson.name);
+        }
+        catch (e) {
+            Alert.alert(Alert.alert(e.toString()));
+        }
+    }
     return (
         <View >
             <View style={styles.container}>
 
-                <View style={styles.header}>
-                    <View style={styles.user}></View>
-                    <Text style={styles.username}> Usuário</Text>
-                </View>
+                <Header usuario={username} />
 
                 <View style={stylesGeral.borderContainer}>
 
@@ -129,7 +141,6 @@ export default function Menu({ navigation }) {
 
 
                 </View>
-
 
             </View>
 

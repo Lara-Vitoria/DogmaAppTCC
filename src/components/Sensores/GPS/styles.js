@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         left: 32,
         width: '83%',
         height: '70%',
-    },
+    }
 
 });
 

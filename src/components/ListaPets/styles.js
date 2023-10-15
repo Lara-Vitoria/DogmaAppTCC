@@ -18,11 +18,12 @@ const styles = StyleSheet.create({
     backPet: {
         backgroundColor: '#FFF2E2',
         width: horizontal * .8,
-        height: vertical * .25,
+        height: vertical * .2,
         borderRadius: 20,
-        bottom: vertical * 0.3,
+        bottom: vertical * 0.2,
         elevation: 2,
         flexDirection: 'row',
+        marginBottom: 40
     },
     imgPet: {
         width: horizontal * .4,
@@ -30,20 +31,20 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#C1C1C1',
     },
-    infoPet: {
-        width: horizontal * .4,
-        alignItems: 'center'
-    },
     petTxt: {
         color: '#775B37',
-        fontSize: 28,
+        fontSize: 20,
         marginTop: 16,
         fontWeight: 'bold',
         textAlign: 'center'
     },
+    opcao: {
+        flex: 1,
+        alignItems: 'center',
+    },
     btnIcon: {
         marginTop: 16,
-        marginBottom: 16
+        marginBottom: 8
     },
     rodape: {
         position: 'absolute',

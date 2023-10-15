@@ -1,15 +1,36 @@
-import { Text, View, TouchableOpacity } from 'react-native';
+import { useState, useEffect } from 'react';
+import { Text, View, TouchableOpacity, Alert } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from '@expo/vector-icons';
 
+import Header from '../Header';
 import styles from './styles';
 import stylesGeral from "../styleGeral";
 export default function Configuracao({ navigation }) {
+
+    const [username, setUsername] = useState('');
+
+    useEffect(
+        () => {
+            getNome();
+        }, []
+    );
+
+    async function getNome() {
+        try {
+            let user = await AsyncStorage.getItem("@user");
+            userJson = JSON.parse(user)
+            setUsername(userJson.name);
+        }
+        catch (e) {
+            Alert.alert(e.toString());
+        }
+    }
+
     return (
         <View style={styles.containerMain}>
 
-            <View>
-                <Text style={styles.username}>Usuario</Text>
-            </View>
+            <Header usuario={username} />
 
             <View style={stylesGeral.borderContainer}>
                 <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('EdicaoUsuario')} >
