@@ -8,10 +8,26 @@ import stylesGeral from "../styleGeral";
 import Info from '../../../assets/svgImages/Info';
 
 const informacoes = [
-    { id: '1', name: 'Item 1', descricao: 'Lorem ipsum dolor sit amet. Et perferendis laborum est dolorem quasi aut Quis consectetur. In aliquam praesentium est doloribus nostrum aut molestiae veniam quo magnam commodi quo eius sunt est blanditiis saepe!' },
-    { id: '2', name: 'Item 2', descricao: 'Lorem ipsum dolor sit amet. Et perferendis laborum est dolorem quasi aut Quis consectetur. In aliquam praesentium est doloribus nostrum aut molestiae veniam quo magnam commodi quo eius sunt est blanditiis saepe!' },
-    { id: '3', name: 'Item 3', descricao: 'Lorem ipsum dolor sit amet. Et perferendis laborum est dolorem quasi aut Quis consectetur. In aliquam praesentium est doloribus nostrum aut molestiae veniam quo magnam commodi quo eius sunt est blanditiis saepe!' },
-    { id: '4', name: 'Item 4', descricao: 'Lorem ipsum dolor sit amet. Et perferendis laborum est dolorem quasi aut Quis consectetur. In aliquam praesentium est doloribus nostrum aut molestiae veniam quo magnam commodi quo eius sunt est blanditiis saepe!' },
+    {
+        id: '1',
+        name: 'Comprei a coleira para o meu cachorro. O que devo fazer agora?',
+        descricao: `Você deve realizar o cadastro de seu pet. No campo "token" você deve colocar o numero de identificação que veio acompanhado da coleira. Agora é só acompanhar os dados do seu pet!`
+    },
+    {
+        id: '2',
+        name: 'Como sei aonde o meu cachorro está?',
+        descricao: 'Acessando a tela do gps, você recebe os ultimos dados de localização do seu pet!'
+    },
+    {
+        id: '3',
+        name: 'Como sei se o meu cachorro está latindo muito?',
+        descricao: 'Acessando a tela de monitoramento do som, você recebe os ultimos dados de contagem de latidos do seu pet!'
+    },
+    {
+        id: '4',
+        name: 'Como sei se o meu cachorro está com os níveis de atividade física adequados?',
+        descricao: 'Acessando a tela de monitoramento de atividade, você recebe o status de atividade do seu pet!'
+    },
 ];
 
 

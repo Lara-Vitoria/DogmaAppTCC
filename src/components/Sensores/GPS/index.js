@@ -2,12 +2,9 @@ import { useState, useEffect } from 'react';
 import {
     View,
     Text,
-    TouchableOpacity,
-    ScrollView,
     Alert
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Geolocation from 'react-native-geolocation-service';
+import * as Location from 'expo-location';
 import MapView, { Marker } from 'react-native-maps';
 import Svg, { Circle } from "react-native-svg";
 
@@ -21,28 +18,72 @@ import stylesGeral from "../../styleGeral";
 
 export default function GPS({ navigation }) {
 
-    const [latitude, setLatitude] = useState('');
-    const [longitude, setLongitude] = useState('');
-    const [id, setId] = useState('');
+    const [latitude, setLatitude] = useState(0);
+    const [longitude, setLongitude] = useState(0);
+    const [deviceLatitude, setDeviceLatitude] = useState(0);
+    const [deviceLongitude, setDeviceLongitude] = useState(0);
     const [petId, setPetId] = useState('');
 
-    function handlePetSelection(petId) {
+    useEffect(() => {
+        obterLocalizacao();
+    }, []);
+
+    useEffect(() => {
+        if (petId) getDados(petId);
+
+        const interval = setInterval(() => {
+            if (petId) getDados(petId);
+        }, 30000);
+
+        return () => clearInterval(interval);
+    }, [petId]);
+
+    async function handlePetSelection(petId) {
         setPetId(petId);
+        getDados(petId);
     }
+    async function getDados(id) {
+        console.log("id gets: ", id)
+        try {
+            const response = await api.get(`/collar/collar/${id}`);
+            let token = response.data.token;
 
-    useEffect(
-        () => {
-            //getDados();
-        }, []
-    );
+            if (!response.data) {
+                Alert.alert('Pet não possui dados de geolocalização');
+                return;
+            }
 
-    async function getDados() {
-        await api.get(`/gps/user/${id}`)
-            .then((res) => {
-                console.log(res)
-            })
-            .catch(error => console.log(error.response.data));
+            const dados = await api.get(`/gps/collar/${token}`);
+
+            var tamanho = dados.data.gps.length - 1
+
+            setLatitude(parseFloat(dados.data.gps[tamanho].latitude))
+            setLongitude(parseFloat(dados.data.gps[tamanho].longitude))
+        } catch (error) {
+            Alert.alert('Erro ao obter a localização do pet');
+        }
     }
+    const obterLocalizacao = async () => {
+        try {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                Alert.alert('Permissão de localização não concedida!');
+                return;
+            }
+
+            let location = await Location.getCurrentPositionAsync({});
+            const { latitude, longitude } = location.coords;
+
+            setDeviceLatitude(latitude);
+            setDeviceLongitude(longitude)
+        } catch (error) {
+            Alert.alert('Erro ao obter a localização do celular');
+        }
+    };
+
+    useEffect(() => {
+        obterLocalizacao();
+    }, [latitude, longitude]);
 
     return (
         <View style={stylesGeral.container}>
@@ -51,11 +92,37 @@ export default function GPS({ navigation }) {
                 <PetHeader onSelectPet={handlePetSelection} />
             </View>
 
-
             <View style={stylesGeral.borderContainerFooter}>
                 {
-                    petId
-                        ? <MapView style={styles.mapa} />
+                    petId && latitude !== 0 && longitude !== 0
+                        ? <MapView style={styles.mapa}
+                            initialRegion={{
+                                latitude: latitude,
+                                longitude: longitude,
+                                latitudeDelta: 0.0922,
+                                longitudeDelta: 0.0421,
+                            }}>
+                            <Marker
+                                coordinate={{
+                                    latitude: latitude,
+                                    longitude: longitude,
+                                }}
+                                title="Localização"
+                                description="Local recebido da API"
+                                pinColor="green"
+                            />
+                            <Marker
+                                coordinate={{
+                                    latitude: deviceLatitude,
+                                    longitude: deviceLongitude,
+                                    latitudeDelta: 0.0922,
+                                    longitudeDelta: 0.0421,
+                                }}
+                                title="Localização"
+                                description="Local recebido da API"
+                                pinColor="blue"
+                            />
+                        </MapView>
                         : <Text style={stylesGeral.textDefault}>Selecione um pet</Text>
                 }
             </View>

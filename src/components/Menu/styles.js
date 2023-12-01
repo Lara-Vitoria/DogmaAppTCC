@@ -24,14 +24,13 @@ const styles = StyleSheet.create({
     },
     btnGroup: {
         top: -90,
-        justifyContent: 'space-between'
-    },
-    btnGroupSensor: {
-        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     btnSensor: {
         backgroundColor: '#FFF2E2',
         marginHorizontal: 12,
+        top: 32,
+        marginBottom: 56,
         borderRadius: 50,
         width: 160,
         height: 140,

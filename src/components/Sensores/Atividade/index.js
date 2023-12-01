@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-import Svg, { Circle } from "react-native-svg";
+import { View, Text, Alert, ScrollView } from "react-native";
 
 import PetHeader from '../../PetHeader';
 import api from '../../../../service/api';
@@ -14,27 +11,60 @@ import PlaySvgComponent from "../../../../assets/svgImages/Play";
 
 export default function Atividade({ navigation }) {
 
-    const [atividade, setAtividade] = useState(0);
-    const [id, setId] = useState('');
+    const [atividade, setAtividade] = useState([]);
+    const [horario, setHorario] = useState([]);
     const [petId, setPetId] = useState('');
+
 
     function handlePetSelection(petId) {
         setPetId(petId);
+        getDados(petId);
     }
 
-    useEffect(
-        () => {
-            //getDados();
-        }, []
-    );
+    useEffect(() => {
+        const interval = setInterval(() => {
+            getDados(petId);
 
-    async function getDados() {
-        await api.get(`/acelerometer/user/${id}`)
-            .then((res) => {
-                console.log(res)
-            })
-            .catch(error => console.log(error.response.data));
+        }, 30000);
+
+        return () => clearInterval(interval);
+    }, [petId]);
+
+    async function getDados(id) {
+        try {
+            const response = await api.get(`/collar/collar/${id}`);
+            let token = response.data.token;
+
+            if (!response.data) {
+                Alert.alert('Pet não possui dados de atividade');
+                return;
+            }
+
+            const dados = await api.get(`/acelerometer/collar/${token}`);
+            setAtividade(dados.data);
+            preparaDados();
+        } catch (error) {
+            console.log(error)
+            Alert.alert('Erro ao obter a atividade do pet');
+        }
     }
+
+    function preparaDados() {
+        const horarioFormat = atividade.map(item => {
+            const data = new Date(item.created_at);
+
+            const hora = data.getHours();
+            const minuto = data.getMinutes();
+
+            return `${hora}:${minuto}`
+        });
+
+        setHorario(horarioFormat)
+    }
+
+    useEffect(() => {
+        preparaDados();
+    }, [atividade]);
 
     return (
         <View style={stylesGeral.container}>
@@ -45,50 +75,51 @@ export default function Atividade({ navigation }) {
 
             <View style={stylesGeral.borderContainerFooter}>
                 {
-                    petId
-                        ? (<View style={stylesGeral.borderContainerFooter}>
-                            <Svg viewBox="0 0 32 32" style={styles.circuloPosicao}>
-                                <Circle style={styles.circulo}
-                                    cx={16} cy={16} r={13} />
-                            </Svg>
+                    petId && atividade.length > 0
+                        ? (
+                            <View style={stylesGeral.borderContainerFooter}>
+                                <View style={styles.tabela}>
 
-                            <View style={styles.txt}>
-                                <Text style={styles.txtDistancia}>
-                                    0,90
-                                </Text>
+                                    <View style={styles.cabecalhoRow}>
+                                        <View style={styles.cabecalho}>
+                                            <Text style={styles.cabecalhoTexto}>Hora</Text>
+                                        </View>
+                                        <View style={[styles.cabecalho, { width: 200 }]}>
+                                            <Text style={styles.cabecalhoTexto}>Status da atividade</Text>
+                                        </View>
+                                    </View>
 
-                                <Text style={styles.txtKM}>
-                                    KM
-                                </Text>
+                                    <ScrollView contentContainerStyle={[styles.scroll, { marginBottom: 20 }]}>
+                                        {
+                                            atividade.map((item, index) => (
+                                                <View style={styles.dadosRow} key={index.toString()}>
+                                                    <View style={styles.dados}>
+                                                        <Text style={styles.dadosTexto}>{horario[index]}</Text>
+                                                    </View>
+                                                    <View style={[styles.dados, { width: 200 }]}>
+                                                        <Text style={styles.dadosTexto}>{item.status}</Text>
+                                                    </View>
+                                                </View>
 
-                                <Text style={styles.txtTempo}>
-                                    10 min
-                                </Text>
+                                            ))
+                                        }
+                                    </ScrollView>
+                                </View>
                             </View>
-
-                            <View style={styles.btn}>
-                                <TouchableOpacity>
-                                    <PlaySvgComponent />
-                                </TouchableOpacity>
-                            </View>
-
-                        </View>)
+                        )
                         : <Text style={stylesGeral.textDefault}>Selecione um pet</Text>
                 }
             </View>
 
             <View style={stylesGeral.borderContainerDados}>
                 {
-                    petId
+                    petId && atividade.length > 0
                         ? (<View style={styles.infoGroup}>
                             <View style={styles.infoBack}>
-                                <Text style={styles.infoTxt}>Hoje</Text>
-                                <Text style={styles.infoTxtNum}>51:35 min</Text>
-                            </View>
-
-                            <View style={styles.infoBack}>
-                                <Text style={styles.infoTxt}>Semana</Text>
-                                <Text style={styles.infoTxtNum}>51:35 min</Text>
+                                <Text style={styles.infoTxt}>Status atual</Text>
+                                <Text style={styles.infoTxtNum}>
+                                    {atividade[atividade.length - 1].status}
+                                </Text>
                             </View>
                         </View>)
                         : <Text style={stylesGeral.textDefaultFooter}>Selecione um pet</Text>

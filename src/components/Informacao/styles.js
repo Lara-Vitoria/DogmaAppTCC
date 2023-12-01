@@ -40,14 +40,16 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     perguntaTxt: {
+        left: -10,
         fontSize: 16,
+        width: 240,
         color: '#775B37',
         borderBottomWidth: 1,
         borderBottomColor: '#775B37',
     },
     iconPergunta: {
         position: 'absolute',
-        left: horizontal * .3
+        left: horizontal * .58
     },
     descricao: {
         fontSize: 16,

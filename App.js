@@ -8,10 +8,8 @@ import Login from './src/components/Login';
 import Cadastro from './src/components/Cadastro';
 import Menu from './src/components/Menu';
 import GPS from './src/components/Sensores/GPS';
-import BPM from './src/components/Sensores/BPM';
 import Som from './src/components/Sensores/Som';
 import Atividade from './src/components/Sensores/Atividade';
-import Estresse from './src/components/Estresse';
 import Informacao from './src/components/Informacao';
 import Configuracao from './src/components/Configuracao';
 import EdicaoUsuario from './src/components/EdicaoUsuario';
@@ -50,11 +48,6 @@ function NavegacaoStack() {
         options={{ headerShown: false }} />
 
       <Stack.Screen
-        name="BPM"
-        component={BPM}
-        options={{ headerShown: false }} />
-
-      <Stack.Screen
         name="Som"
         component={Som}
         options={{ headerShown: false }} />
@@ -62,11 +55,6 @@ function NavegacaoStack() {
       <Stack.Screen
         name="Atividade"
         component={Atividade}
-        options={{ headerShown: false }} />
-
-      <Stack.Screen
-        name="Estresse"
-        component={Estresse}
         options={{ headerShown: false }} />
 
       <Stack.Screen

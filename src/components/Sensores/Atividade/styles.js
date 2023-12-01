@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     infoBack: {
         backgroundColor: '#CE9B59',
         justifyContent: 'center',
-        width: 130,
+        width: horizontal * .6,
         height: 80,
         borderRadius: 20,
         marginLeft: 40,
@@ -60,6 +60,54 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold',
         color: '#fff',
+    },
+    scroll: {
+        minHeight: vertical * 3,
+    },
+    tabela: {
+        bottom: 90,
+        left: 40
+    },
+    cabecalho: {
+        height: 60,
+        width: horizontal * .25,
+        backgroundColor: '#775b37',
+        borderRadius: 20,
+        marginRight: 24
+    },
+    cabecalhoRow: {
+        flexDirection: 'row'
+    },
+    dadosRow: {
+        flexDirection: 'row'
+    },
+    cabecalhoTexto: {
+        textAlign: 'center',
+        margin: 6,
+        color: '#fff',
+        marginTop: 18
+    },
+    dados: {
+        left: 2,
+        height: 48,
+        width: horizontal * .25,
+        marginRight: 24,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        marginTop: 32,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    dadosTexto: {
+        color: '#775b37',
+        textAlign: 'center',
+        marginTop: 12
     }
 
 });

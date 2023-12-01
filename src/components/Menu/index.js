@@ -50,7 +50,7 @@ function NavegacaoTab({ navigation }) {
             <Tab.Screen name="CadastroPet" component={Cadastro}
                 options={{
                     title: 'CadastroPet',
-                    tabBarButton: () => (<TouchableOpacity onPress={() => navigation.navigate('CadastroPet')}>
+                    tabBarButton: () => (<TouchableOpacity onPress={() => navigation.navigate('CadastroPet', { mode: 'create', pet: null })}>
                         <AntDesign style={{ bottom: 32 }} name="pluscircle" size={64} color="#FCBE6B" />
                     </TouchableOpacity>)
 
@@ -93,55 +93,29 @@ export default function Menu({ navigation }) {
     return (
         <View >
             <View style={styles.container}>
-
                 <Header usuario={username} />
 
                 <View style={stylesGeral.borderContainer}>
-
                     <View style={styles.btnGroup}>
-                        <View style={styles.btnGroupSensor}>
+                        <TouchableOpacity style={styles.btnSensor}
+                            onPress={() => navigation.navigate('GPS')}>
+                            <GPSSvgComponent />
+                            <Text style={styles.btnSensorText}> GPS </Text>
+                        </TouchableOpacity>
 
-                            <TouchableOpacity style={styles.btnSensor}
-                                onPress={() => navigation.navigate('GPS')}>
-                                <GPSSvgComponent />
-                                <Text style={styles.btnSensorText}> GPS </Text>
-                            </TouchableOpacity>
+                        <TouchableOpacity style={styles.btnSensor}
+                            onPress={() => navigation.navigate('Som')}>
+                            <SomSvgComponent />
+                            <Text style={styles.btnSensorText}> Som </Text>
+                        </TouchableOpacity>
 
-                            <TouchableOpacity style={styles.btnSensor}
-                                onPress={() => navigation.navigate('BPM')}>
-                                <BPMSvgComponent />
-                                <Text style={styles.btnSensorText}> BPM </Text>
-                            </TouchableOpacity>
-                        </View>
-
-                        <View style={styles.btnGroupSensor}>
-
-                            <TouchableOpacity style={styles.btnSensor}
-                                onPress={() => navigation.navigate('Som')}>
-                                <SomSvgComponent />
-                                <Text style={styles.btnSensorText}> Som </Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity style={styles.btnSensor}
-                                onPress={() => navigation.navigate('Atividade')}>
-                                <AtividadeSvgComponent />
-                                <Text style={styles.btnSensorText}> Atividade </Text>
-                            </TouchableOpacity>
-                        </View>
-
-                        <View style={styles.btnGroup}>
-
-                            <TouchableOpacity style={styles.btn}
-                                onPress={() => navigation.navigate('Estresse')}>
-                                <Text style={styles.btnText}> Verificar estresse </Text>
-                            </TouchableOpacity>
-
-                        </View>
+                        <TouchableOpacity style={styles.btnSensor}
+                            onPress={() => navigation.navigate('Atividade')}>
+                            <AtividadeSvgComponent />
+                            <Text style={styles.btnSensorText}> Atividade </Text>
+                        </TouchableOpacity>
                     </View>
-
-
                 </View>
-
             </View>
 
             <View style={styles.navBar}>

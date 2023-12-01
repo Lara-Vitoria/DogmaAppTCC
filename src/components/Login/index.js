@@ -29,7 +29,7 @@ export default function Login({ navigation }) {
                 navigation.navigate('Menu')
                 await AsyncStorage.setItem("@user", user);
             })
-            .catch(error => Alert.alert(error.response.data));
+            .catch(error => console.log(error.response.data));
     }
 
     function verificaDados() {

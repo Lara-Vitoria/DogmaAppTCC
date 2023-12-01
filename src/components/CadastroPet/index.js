@@ -79,6 +79,8 @@ export default function CadastroPet({ route, navigation }) {
 
         await api.post('/pets', objPet)
             .then((res) => {
+                Alert.alert("Animal cadastrado com seucesso!");
+                navigation.navigate('Menu')
                 console.log(res)
             })
             .catch(error => console.log(error.response.data));
@@ -104,7 +106,7 @@ export default function CadastroPet({ route, navigation }) {
                         placeholder="Idade"
                         placeholderTextColor='#775B37'
                         onChangeText={(age) => setAge(age)}
-                        value={age} />
+                        value={age !== 0 ? age.toString() : null} />
 
                     <TextInput
                         style={styles.input}
